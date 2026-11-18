@@ -1,0 +1,7 @@
+{
+	"id": "nowplaying",
+	"name": "Now Playing",
+	"author": "antopilo",
+	"description": "Shows what Spotify or another player plays now at the bottom of the sidebar, with play, pause, skip and seek.",
+	"version": "1.0.0"
+}

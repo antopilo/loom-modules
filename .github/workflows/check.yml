@@ -1,0 +1,34 @@
+# Checks every module on each pull request and push: allowed files, module.json, compiling against Loom,
+# the module's id, and, on pull requests, that changed modules raise their version.
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # The modules compile against Loom's Core. While the Loom repository is private, set a LOOM_TOKEN secret
+      # (a token that can read antopilo/Loom); once it is public the default token is enough.
+      - uses: actions/checkout@v4
+        with:
+          repository: antopilo/Loom
+          path: .loom
+          token: ${{ secrets.LOOM_TOKEN || github.token }}
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: .loom/global.json
+
+      - name: Check modules
+        shell: pwsh
+        run: ./ci/check.ps1 -Loom .loom -Base "${{ github.event.pull_request.base.sha }}"

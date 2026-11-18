@@ -1,0 +1,34 @@
+# Publishes index.json, which Loom reads to list and install modules, to the release tagged 'index'
+# each time main changes. Loom downloads module files from the commit the index names.
+name: Publish index
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-index
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    # Linux checks files out byte for byte, so the hashes match the files GitHub serves.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Write index.json
+        shell: pwsh
+        run: ./ci/index.ps1 -Commit "${{ github.sha }}" -Output index.json
+
+      - name: Upload to the 'index' release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view index >/dev/null 2>&1 || gh release create index --title "Module index" --latest=false \
+            --notes "index.json lists every module and the hash of each file. Loom reads it; do not delete this release."
+          gh release upload index index.json --clobber

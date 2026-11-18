@@ -1,0 +1,8 @@
+bin/
+obj/
+index.json
+# Loom writes a project into each module folder for editors; it is not part of the module.
+modules/*/*.csproj
+.vs/
+.vscode/
+.idea/
