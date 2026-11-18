@@ -71,8 +71,7 @@ pwsh ci/check.ps1 -Loom ..\Loom
 
 ## Maintainers
 
-- `Check` runs `ci/check.ps1` on every pull request. While the Loom repository is private, it needs a `LOOM_TOKEN`
-  secret that can read it.
+- `Check` runs `ci/check.ps1` on every pull request, against the latest Loom `main`.
 - `Publish index` runs `ci/index.ps1` on every push to `main` and uploads `index.json` to the release tagged
   `index`. Do not delete that release.
 - Review every line of a pull request: CI proves that a module compiles, not that it is safe.

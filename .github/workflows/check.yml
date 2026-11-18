@@ -17,13 +17,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      # The modules compile against Loom's Core. While the Loom repository is private, set a LOOM_TOKEN secret
-      # (a token that can read antopilo/Loom); once it is public the default token is enough.
+      # The modules compile against the Core of Loom's latest main.
       - uses: actions/checkout@v4
         with:
           repository: antopilo/Loom
           path: .loom
-          token: ${{ secrets.LOOM_TOKEN || github.token }}
 
       - uses: actions/setup-dotnet@v4
         with:
