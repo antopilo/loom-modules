@@ -1,0 +1,7 @@
+{
+	"id": "godot-game",
+	"name": "Godot Game",
+	"author": "EtienneBoutin",
+	"description": "On Windows, launches the local Godot executable you configure and embeds your Godot project in a Loom panel.",
+	"version": "1.0.0"
+}
